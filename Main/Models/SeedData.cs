@@ -23,7 +23,8 @@ namespace Main.Models
                         FirstName = "Jonas",
                         SecondName = "PJonas",
                         BirthdayDate = DateTime.Parse("1989-01-11"),
-                        WorkStartDate = DateTime.Parse("2009-04-30")
+                        WorkStartDate = DateTime.Parse("2009-04-30"),
+                        Email = "martynas9x@gmail.com",
                     },
 
                     new Worker
@@ -31,7 +32,8 @@ namespace Main.Models
                         FirstName = "Jonas2",
                         SecondName = "PaJonas",
                         BirthdayDate = DateTime.Parse("1990-01-11"),
-                        WorkStartDate = DateTime.Parse("2010-04-30")
+                        WorkStartDate = DateTime.Parse("2010-04-30"),
+                        Email = "martynas9x@gmail.com",
                     },
 
                     new Worker
@@ -39,7 +41,8 @@ namespace Main.Models
                         FirstName = "Jonas3",
                         SecondName = "PavJonas",
                         BirthdayDate = DateTime.Parse("1991-01-11"),
-                        WorkStartDate = DateTime.Parse("2011-04-30")
+                        WorkStartDate = DateTime.Parse("2011-04-30"),
+                        Email = "martynas9x@gmail.com",
                     }
                 );
                 context.SaveChanges();

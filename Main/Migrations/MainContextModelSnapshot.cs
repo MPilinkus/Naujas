@@ -27,6 +27,8 @@ namespace Main.Migrations
 
                     b.Property<string>("SecondName");
 
+                    b.Property<string>("Email");
+
                     b.Property<DateTime>("WorkStartDate");
 
                     b.HasKey("ID");

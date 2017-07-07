@@ -17,6 +17,10 @@ namespace Main.Models
         [Display(Name = "Started Working")]
         [DataType(DataType.Date)]
         public DateTime WorkStartDate { get; set; }
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
 
         [Display(Name = "Full Name")]
         public string FullName

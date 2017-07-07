@@ -16,9 +16,11 @@ namespace Main.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     BirthdayDate = table.Column<DateTime>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    SecondName = table.Column<string>(nullable: true),
-                    WorkStartDate = table.Column<DateTime>(nullable: false)
+                    FirstName = table.Column<string>(nullable: false),
+                    SecondName = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: true),
+                    WorkStartDate = table.Column<DateTime>(nullable: false),
+
                 },
                 constraints: table =>
                 {

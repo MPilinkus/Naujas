@@ -31,8 +31,6 @@ namespace Main
             services.AddDbContext<MainContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MainContext")));
 
-            /*services.AddDbContext<MainContext>(options => 
-                    options.UseSqlite("Data Source=Main.db"));*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +58,6 @@ namespace Main
                     template: "{controller=Workers}/{action=Index}/{id?}");
             });
 
-            //DBinitialize.EnsureCreated(app.ApplicationServices);
             SeedData.Initialize(app.ApplicationServices);
         }
     }

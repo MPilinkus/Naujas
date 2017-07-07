@@ -135,7 +135,7 @@ namespace Main.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,SecondName,BirthdayDate,WorkStartDate")] Worker worker)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,SecondName,BirthdayDate,WorkStartDate,Email")] Worker worker)
         {
             if (ModelState.IsValid)
             {
@@ -167,7 +167,7 @@ namespace Main.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,SecondName,BirthdayDate,WorkStartDate")] Worker worker)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,SecondName,BirthdayDate,WorkStartDate,Email")] Worker worker)
         {
             if (id != worker.ID)
             {
@@ -231,6 +231,40 @@ namespace Main.Controllers
             return _context.Worker.Any(e => e.ID == id);
         }
 
-       
+        // GET: Workers/SendEmail/5
+
+        public async Task<IActionResult> SendEmail(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var worker = await _context.Worker
+                .SingleOrDefaultAsync(m => m.ID == id);
+            if (worker == null)
+            {
+                return NotFound();
+            }
+
+            return View();
+        }
+
+        // POST: Workers/SendEmail/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendEmail(int id, [Bind("Author,Message")]EmailMessage birthdayman)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(birthdayman);
+                await _context.SaveChangesAsync();
+                return View();
+                //birthdayman.SendEmail()
+            }
+
+
+                return View();
+        }
     }
 }
