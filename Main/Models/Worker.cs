@@ -18,6 +18,15 @@ namespace Main.Models
         [DataType(DataType.Date)]
         public DateTime WorkStartDate { get; set; }
 
+        [Display(Name = "Full Name")]
+        public string FullName
+        {
+            get
+            {
+                return SecondName + ", " + FirstName;
+            }
+        }
+
         public Boolean isTodayBirthday(DateTime BirthdayDate) { //A Method to know if today is someones birthday
             bool result = false;
             DateTime today = DateTime.Today;
@@ -25,5 +34,7 @@ namespace Main.Models
             else result = false;
                 return result;
         }
+
+        
     }
 }

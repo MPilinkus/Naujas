@@ -52,7 +52,7 @@ namespace Main.Controllers
                          select w;
             if (!String.IsNullOrEmpty(searchString))
             {
-                workers = workers.Where(w => w.FirstName.Contains(searchString));
+                workers = workers.Where(w => w.FullName.Contains(searchString));
             }
 
             switch (sortOrder)
