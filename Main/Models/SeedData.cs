@@ -12,7 +12,7 @@ namespace Main.Models
             using (var context = new MainContext(
                 serviceProvider.GetRequiredService<DbContextOptions<MainContext>>()))
             {
-                if (context.Worker.Any())
+                 if (context.Worker.Any())
                 {
                     return;
                 }

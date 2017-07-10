@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit;
 using MimeKit;
+using Slack.Webhooks.Core;
 
 namespace Main.Models
 {
@@ -15,7 +16,7 @@ namespace Main.Models
         public int RecieverID { get; set; }
         public string Message { get; set; }
 
-        public static void SendEmail(string Author, string Reciever, string Message, string RecieverEmail)
+        public void MailSend(string Author, string Reciever, string Message, string RecieverEmail)
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(Author, "martynas9x@gmail.com"));
@@ -44,5 +45,7 @@ namespace Main.Models
                 client.Disconnect(true);
             }
         }
+
+        
     }
 }

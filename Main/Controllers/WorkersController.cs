@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Main.Models;
+using Slack.Webhooks.Core;
 
 namespace Main.Controllers
 {
@@ -255,16 +256,58 @@ namespace Main.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendEmail(int id, [Bind("Author,Message")]EmailMessage birthdayman)
         {
+            birthdayman.RecieverID = id;
+            var worker = await _context.Worker
+    .SingleOrDefaultAsync(m => m.ID == id);
             if (ModelState.IsValid)
             {
-                _context.Add(birthdayman);
-                await _context.SaveChangesAsync();
-                return View();
-                //birthdayman.SendEmail()
+                birthdayman.MailSend(birthdayman.Author, birthdayman.FullName, birthdayman.Message, birthdayman.Email);
+
             }
 
 
                 return View();
         }
+
+        public async Task<IActionResult> SendSlack(int id, string author, string message) {
+
+            var worker = await _context.Worker
+                .SingleOrDefaultAsync(m => m.ID == id);
+            var slackClient = new SlackClient("https://hooks.slack.com/services/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");
+            var slackMessage = new SlackMessage
+            {
+                Channel = "#general",
+                Text = "Sveikinimas:",
+                IconEmoji = Emoji.Cake,
+                Username = "Gimtadienio Sveikinimai"
+            };
+            slackMessage.Mrkdwn = false;
+            var slackAttachment = new SlackAttachment
+            {
+                Fallback = worker.FirstName + " " + worker.SecondName + " {0} svencia gimtadieni!, worker.FirstName ",
+                Text = worker.FirstName + " " + worker.SecondName + " {0} svencia gimtadieni!, worker.FirstName ",
+                Color = "#D00000",
+                Fields =
+            new List<SlackField>
+                {
+                    new SlackField
+                        {
+                            Title = author + " sveikina:",
+                            Value = message
+                        }
+                }
+            };
+            slackMessage.Attachments = new List<SlackAttachment> { slackAttachment };
+            await slackClient.PostAsync(slackMessage);
+
+            return View("AfterMessage");
+        }
+
+        public async Task<IActionResult> AfterMessage() {
+
+            return View();
+        }
+
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Main.Models;
 
 namespace Main.Models
 {
@@ -14,5 +15,6 @@ namespace Main.Models
         }
 
         public DbSet<Main.Models.Worker> Worker { get; set; }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Slack.Webhooks.Core;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -39,6 +41,5 @@ namespace Main.Models
                 return result;
         }
 
-        
     }
 }

@@ -12,9 +12,9 @@
 
 <form asp-controller="Workers" asp-action="Index">
        @foreach (var item in Model) {
-               @if (item.isTodayBirthday(item.BirthdayDate)) { 
+               @if (item.isTodayBirthday(item.BirthdayDate)) {
                    <p><a asp-action="Details" asp-route-id="@item.ID">@Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.SecondName)</a> svencia gimtadieni. <a a asp-action="SendEmail" asp-route-id="@item.ID">Pasveikink!</a></p>
-               }  
+               }
        }
     <p>
         @*<select asp-for="workerSecondName" asp-items="Model.SecondNames">
@@ -24,6 +24,7 @@
         <input type="submit" value="Filter" />
          | <a asp-action="Index">Back to Full List</a>
     </p>
+
 </form>
 
 <table class="table">

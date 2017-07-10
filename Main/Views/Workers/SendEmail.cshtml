@@ -4,9 +4,9 @@
     ViewData["Title"] = "SendEmail";
 }
 
-<h2>SendEmail</h2>
+<h2>Pasveikink!</h2>
 
-<form asp-action="SendEmail">
+@*<form asp-action="SendEmail">
     <div class="form-horizontal">
         <hr />
         <div asp-validation-summar="ModelOnly" class="textdanger"></div>
@@ -25,6 +25,32 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Send via Email" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>*@
+
+<form asp-action="SendSlack">
+    <div class="form-horizontal">
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ID" />
+        <div asp-validation-summar="ModelOnly" class="textdanger"></div>
+        <div class="form-group">
+            <label asp-for="Author" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Author" class="form-control" required />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Message" class="col-md-2 control-label"></label>
+            <textarea asp-for="Message" class="form-control" rows="10"></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Send via Slack" class="btn btn-default" />
             </div>
         </div>
     </div>
