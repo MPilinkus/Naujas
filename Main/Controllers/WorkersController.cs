@@ -16,13 +16,12 @@ namespace Main.Controllers
 
         public WorkersController(MainContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Workers
 
         public async Task<IActionResult> Index(
-            //string workerSecondName, 
             string sortOrder,
             string searchString,
             string currentFilter,
@@ -50,7 +49,7 @@ namespace Main.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             var workers = from w in _context.Worker
-                         select w;
+                          select w;
             if (!String.IsNullOrEmpty(searchString))
             {
                 workers = workers.Where(w => w.FullName.Contains(searchString));
@@ -86,22 +85,6 @@ namespace Main.Controllers
 
             var today = DateTime.Today;
 
-            
-
-            /*if (!String.IsNullOrEmpty(searchString))
-            {
-                workers = workers.Where(s => s.FirstName.Contains(searchString));
-            }
-
-            /*if (!String.IsNullOrEmpty(workerSecondName))
-            {
-                workers = workers.Where(x => x.SecondName == workerSecondName);
-            }*/
-
-            //var workerSecondNameVM = new WorkersSecondNameViewModel();
-            //workerSecondNameVM.SecondNames = new SelectList(await SecondNameQuery.Distinct().ToListAsync());
-           // workerSecondNameVM.workers = await workers.ToListAsync();
-
             int pageSize = 5;
             return View(await PaginatedList<Worker>.CreateAsync(workers.AsNoTracking(), page ?? 1, pageSize));
         }
@@ -136,11 +119,13 @@ namespace Main.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,SecondName,BirthdayDate,WorkStartDate,Email")] Worker worker)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,SecondName,BirthdayDate,WorkStartDate,Email,congratsFlag")] Worker worker)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(worker);
+                worker.congratsFlag = false;
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -266,7 +251,7 @@ namespace Main.Controllers
             }
 
 
-                return View();
+            return View();
         }
 
         public async Task<IActionResult> SendSlack(int id, string author, string message) {
@@ -277,22 +262,22 @@ namespace Main.Controllers
             var slackMessage = new SlackMessage
             {
                 Channel = "#general",
-                Text = "Sveikinimas:",
+                Text = "Congratulation:",
                 IconEmoji = Emoji.Cake,
-                Username = "Gimtadienio Sveikinimai"
+                Username = "BirthdayBot"
             };
             slackMessage.Mrkdwn = false;
             var slackAttachment = new SlackAttachment
             {
-                Fallback = worker.FirstName + " " + worker.SecondName + " {0} svencia gimtadieni!, worker.FirstName ",
-                Text = worker.FirstName + " " + worker.SecondName + " {0} svencia gimtadieni!, worker.FirstName ",
+                Fallback = worker.FirstName + " " + worker.SecondName + " is celebrating birthday!",
+                Text = worker.FirstName + " " + worker.SecondName + " is celebrating birthday!",
                 Color = "#D00000",
                 Fields =
             new List<SlackField>
                 {
                     new SlackField
                         {
-                            Title = author + " sveikina:",
+                            Title = author + " says to you:",
                             Value = message
                         }
                 }
@@ -303,11 +288,48 @@ namespace Main.Controllers
             return View("AfterMessage");
         }
 
-        public async Task<IActionResult> AfterMessage() {
-
+        public IActionResult AfterMessage() {
             return View();
         }
 
+        /* public async void dailySlackMessage(int id)
+         {
+             var worker = await _context.Worker
+                 .SingleOrDefaultAsync(m => m.ID == id);
+             var slackClient = new SlackClient("https://hooks.slack.com/services/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");
+             var slackMessage = new SlackMessage
+             {
+                 Channel = "#general",
+                 Text = "Congratulation:",
+                 IconEmoji = Emoji.Cake,
+                 Username = "BirthdayBot"
+             };
+             slackMessage.Mrkdwn = false;
+             var slackAttachment = new SlackAttachment
+             {
+                 Fallback = worker.FirstName + " " + worker.SecondName + " is celebrating his birthday!",
+                 Text = worker.FirstName + " " + worker.SecondName + " is celebrating his birthday!",
+                 Color = "#D00000",
+                 Fields =
+             new List<SlackField>
+                 {
+                     new SlackField
+                         {
+
+                         }
+                 }
+             };
+             slackMessage.Attachments = new List<SlackAttachment> { slackAttachment };
+             slackClient.Post(slackMessage);
+         }*/
+
+        public async Task<Boolean> birthdayMessageCheck(int id) //true if the message was sent and false if the message was not sent
+        {
+            var worker = await _context.Worker
+    .SingleOrDefaultAsync(m => m.ID == id);
+
+            return true;
+        }
 
     }
 }

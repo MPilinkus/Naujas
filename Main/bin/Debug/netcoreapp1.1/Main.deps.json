@@ -36,7 +36,8 @@
           "Microsoft.NETCore.App": "1.1.2",
           "Microsoft.VisualStudio.Web.BrowserLink": "1.1.2",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "1.1.1",
-          "Slack.Webhooks.Core": "1.0.1"
+          "Slack.Webhooks.Core": "1.0.1",
+          "System.Threading.Timer": "4.3.0"
         },
         "runtime": {
           "Main.dll": {}

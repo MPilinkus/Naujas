@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Main.Models;
+using Main.Controllers;
 
 namespace Main
 {
@@ -34,7 +35,7 @@ namespace Main
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime lifetime)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -59,6 +60,8 @@ namespace Main
             });
 
             SeedData.Initialize(app.ApplicationServices);
+            BirthdayMessage.Startup();
+            //lifetime.ApplicationStarted.Register(BirthdayMessage.Startup);
         }
     }
 }

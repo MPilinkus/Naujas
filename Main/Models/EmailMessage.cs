@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit;
 using MimeKit;
-using Slack.Webhooks.Core;
+using System.Threading;
 
 namespace Main.Models
 {
@@ -46,6 +46,6 @@ namespace Main.Models
             }
         }
 
-        
+       
     }
 }

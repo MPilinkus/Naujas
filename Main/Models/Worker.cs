@@ -1,5 +1,4 @@
-﻿using Slack.Webhooks.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,7 +21,8 @@ namespace Main.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
-
+        [Display(Name = "BirthdayFlag")]
+        public bool congratsFlag { get; set; }
 
         [Display(Name = "Full Name")]
         public string FullName
@@ -40,6 +40,7 @@ namespace Main.Models
             else result = false;
                 return result;
         }
+
 
     }
 }

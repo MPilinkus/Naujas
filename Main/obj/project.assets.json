@@ -11370,7 +11370,8 @@
       "Microsoft.NETCore.App >= 1.1.2",
       "Microsoft.VisualStudio.Web.BrowserLink >= 1.1.2",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 1.1.1",
-      "Slack.Webhooks.Core >= 1.0.1"
+      "Slack.Webhooks.Core >= 1.0.1",
+      "System.Threading.Timer >= 4.3.0"
     ]
   },
   "packageFolders": {
@@ -11379,10 +11380,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\martynas\\Documents\\Visual Studio 2017\\Projects\\Main\\Main\\Main.csproj",
+      "projectUniqueName": "C:\\Users\\martynas\\documents\\visual studio 2017\\Projects\\Main\\Main\\Main.csproj",
       "projectName": "Main",
-      "projectPath": "C:\\Users\\martynas\\Documents\\Visual Studio 2017\\Projects\\Main\\Main\\Main.csproj",
-      "outputPath": "C:\\Users\\martynas\\Documents\\Visual Studio 2017\\Projects\\Main\\Main\\obj\\",
+      "projectPath": "C:\\Users\\martynas\\documents\\visual studio 2017\\Projects\\Main\\Main\\Main.csproj",
+      "outputPath": "C:\\Users\\martynas\\documents\\visual studio 2017\\Projects\\Main\\Main\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"
@@ -11452,6 +11453,10 @@
           "Microsoft.AspNetCore.StaticFiles": {
             "target": "Package",
             "version": "1.1.2"
+          },
+          "System.Threading.Timer": {
+            "target": "Package",
+            "version": "4.3.0"
           }
         },
         "imports": [

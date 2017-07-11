@@ -20,29 +20,32 @@ namespace Main.Models
                 context.Worker.AddRange(
                     new Worker
                     {
-                        FirstName = "Jonas",
-                        SecondName = "PJonas",
+                        FirstName = "John",
+                        SecondName = "Snow",
                         BirthdayDate = DateTime.Parse("1989-01-11"),
                         WorkStartDate = DateTime.Parse("2009-04-30"),
-                        Email = "martynas9x@gmail.com",
+                        Email = "John@Snow.com",
+                        congratsFlag = false
                     },
 
                     new Worker
                     {
-                        FirstName = "Jonas2",
-                        SecondName = "PaJonas",
+                        FirstName = "Tyrion",
+                        SecondName = "Lanister",
                         BirthdayDate = DateTime.Parse("1990-01-11"),
                         WorkStartDate = DateTime.Parse("2010-04-30"),
-                        Email = "martynas9x@gmail.com",
+                        Email = "Tyrion@Lanister.com",
+                        congratsFlag = false
                     },
 
                     new Worker
                     {
-                        FirstName = "Jonas3",
-                        SecondName = "PavJonas",
+                        FirstName = "Cersei",
+                        SecondName = "Lanister",
                         BirthdayDate = DateTime.Parse("1991-01-11"),
                         WorkStartDate = DateTime.Parse("2011-04-30"),
                         Email = "martynas9x@gmail.com",
+                        congratsFlag = false
                     }
                 );
                 context.SaveChanges();
