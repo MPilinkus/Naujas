@@ -292,44 +292,9 @@ namespace Main.Controllers
             return View();
         }
 
-        /* public async void dailySlackMessage(int id)
-         {
-             var worker = await _context.Worker
-                 .SingleOrDefaultAsync(m => m.ID == id);
-             var slackClient = new SlackClient("https://hooks.slack.com/services/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");
-             var slackMessage = new SlackMessage
-             {
-                 Channel = "#general",
-                 Text = "Congratulation:",
-                 IconEmoji = Emoji.Cake,
-                 Username = "BirthdayBot"
-             };
-             slackMessage.Mrkdwn = false;
-             var slackAttachment = new SlackAttachment
-             {
-                 Fallback = worker.FirstName + " " + worker.SecondName + " is celebrating his birthday!",
-                 Text = worker.FirstName + " " + worker.SecondName + " is celebrating his birthday!",
-                 Color = "#D00000",
-                 Fields =
-             new List<SlackField>
-                 {
-                     new SlackField
-                         {
+        
 
-                         }
-                 }
-             };
-             slackMessage.Attachments = new List<SlackAttachment> { slackAttachment };
-             slackClient.Post(slackMessage);
-         }*/
 
-        public async Task<Boolean> birthdayMessageCheck(int id) //true if the message was sent and false if the message was not sent
-        {
-            var worker = await _context.Worker
-    .SingleOrDefaultAsync(m => m.ID == id);
-
-            return true;
-        }
 
     }
 }

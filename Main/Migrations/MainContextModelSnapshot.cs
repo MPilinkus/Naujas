@@ -31,6 +31,8 @@ namespace Main.Migrations
 
                     b.Property<DateTime>("WorkStartDate");
 
+                    b.Property<Boolean>("congratsFlag");
+
                     b.HasKey("ID");
 
                     b.ToTable("Worker");

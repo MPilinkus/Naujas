@@ -5,7 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Main.Models;
-using Main.Controllers;
+using System.Threading.Tasks;
+using System;
+using Main.Handlers;
 
 namespace Main
 {
@@ -32,10 +34,12 @@ namespace Main
             services.AddDbContext<MainContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MainContext")));
 
+            services.AddTransient<BirthdayHandler>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime lifetime)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime lifetime, IServiceProvider provider)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -58,10 +62,22 @@ namespace Main
                     name: "default",
                     template: "{controller=Workers}/{action=Index}/{id?}");
             });
-
+            
             SeedData.Initialize(app.ApplicationServices);
-            BirthdayMessage.Startup();
-            //lifetime.ApplicationStarted.Register(BirthdayMessage.Startup);
+            lifetime.ApplicationStarted.Register(() => {
+                
+                
+                while (true)
+                {
+                    DateTime currentHour = DateTime.Now;
+                    var t = Task.Run(async delegate
+                    {
+                        if(currentHour.Hour == 9)provider.GetService(typeof(BirthdayHandler));
+                        await Task.Delay(TimeSpan.FromSeconds(60));
+                    });
+                    t.Wait();
+                }
+            });
         }
     }
 }

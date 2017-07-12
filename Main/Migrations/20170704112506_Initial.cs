@@ -20,6 +20,7 @@ namespace Main.Migrations
                     SecondName = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     WorkStartDate = table.Column<DateTime>(nullable: false),
+                    congratsFlag = table.Column<Boolean>(nullable: false),
 
                 },
                 constraints: table =>
