@@ -72,8 +72,8 @@ namespace Main
                     DateTime currentHour = DateTime.Now;
                     var t = Task.Run(async delegate
                     {
-                        if(currentHour.Hour == 9)provider.GetService(typeof(BirthdayHandler));
-                        await Task.Delay(TimeSpan.FromSeconds(60));
+                        if(currentHour.Hour == 14)provider.GetService(typeof(BirthdayHandler));
+                        await Task.Delay(TimeSpan.FromSeconds(5));
                     });
                     t.Wait();
                 }

@@ -12,12 +12,13 @@ namespace Main.Models
             using (var context = new MainContext(
                 serviceProvider.GetRequiredService<DbContextOptions<MainContext>>()))
             {
-                 if (context.Worker.Any())
+                if (context.Worker.Any())
                 {
                     return;
                 }
 
-                context.Worker.AddRange(
+                var workers = new Worker[]
+                {
                     new Worker
                     {
                         FirstName = "John",
@@ -47,7 +48,29 @@ namespace Main.Models
                         Email = "martynas9x@gmail.com",
                         congratsFlag = false
                     }
-                );
+
+                };
+                foreach (Worker w in workers)
+                {
+                    context.Worker.Add(w);
+                }
+                context.SaveChanges();
+
+                var birthdaynotifications = new BirthdayNotification[] {
+                    new BirthdayNotification {
+                        WorkerID =workers.Single(w => w.FirstName == "John").ID
+                    },
+                    new BirthdayNotification {
+                        WorkerID =workers.Single(w => w.FirstName == "Tyrion").ID
+                    },
+                    new BirthdayNotification {
+                        WorkerID = workers.Single(w => w.FirstName == "Cersei").ID
+                    },
+                };
+                foreach (BirthdayNotification b in birthdaynotifications)
+                {
+                    context.BirthdayNotifications.Add(b);
+                }
                 context.SaveChanges();
             }
         }

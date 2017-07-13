@@ -8,11 +8,19 @@
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+  </PropertyGroup>
+  
   <ItemGroup>
     <Compile Remove="Migrations\20170705080646_InitialCreate.cs" />
     <Compile Remove="Migrations\20170705080646_InitialCreate.Designer.cs" />
     <Compile Remove="Models\DBinitialize.cs" />
     <Compile Remove="Models\WorkersSecondNameViewModel.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MailKit" Version="1.16.2" />
@@ -35,6 +43,7 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

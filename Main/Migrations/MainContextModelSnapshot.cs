@@ -16,6 +16,24 @@ namespace Main.Migrations
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Main.Models.BirthdayNotification", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("FirstNotification");
+
+                    b.Property<DateTime>("LastNotification");
+
+                    b.Property<int?>("WorkerID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("WorkerID");
+
+                    b.ToTable("BirthdayNotifications");
+                });
+
             modelBuilder.Entity("Main.Models.Worker", b =>
                 {
                     b.Property<int>("ID")
@@ -23,19 +41,26 @@ namespace Main.Migrations
 
                     b.Property<DateTime>("BirthdayDate");
 
+                    b.Property<string>("Email");
+
                     b.Property<string>("FirstName");
 
                     b.Property<string>("SecondName");
 
-                    b.Property<string>("Email");
-
                     b.Property<DateTime>("WorkStartDate");
 
-                    b.Property<Boolean>("congratsFlag");
+                    b.Property<bool>("congratsFlag");
 
                     b.HasKey("ID");
 
                     b.ToTable("Worker");
+                });
+
+            modelBuilder.Entity("Main.Models.BirthdayNotification", b =>
+                {
+                    b.HasOne("Main.Models.Worker", "Worker")
+                        .WithMany("BirthdayNotifications")
+                        .HasForeignKey("WorkerID");
                 });
         }
     }

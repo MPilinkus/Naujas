@@ -15,6 +15,6 @@ namespace Main.Models
         }
 
         public DbSet<Main.Models.Worker> Worker { get; set; }
-
+        public DbSet<Main.Models.BirthdayNotification> BirthdayNotifications { get; set; }
     }
 }

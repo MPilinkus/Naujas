@@ -125,6 +125,9 @@ namespace Main.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(worker);
+                BirthdayNotification bn = new BirthdayNotification { WorkerID = worker.ID };
+                bn.FirstNotification = worker.BirthdayDate;
+                _context.BirthdayNotifications.Add(bn);
                 worker.congratsFlag = false;
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -207,7 +210,9 @@ namespace Main.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var worker = await _context.Worker.SingleOrDefaultAsync(m => m.ID == id);
+            var birthdaynotification = await _context.BirthdayNotifications.SingleOrDefaultAsync(m => m.ID == worker.ID);
             _context.Worker.Remove(worker);
+            _context.BirthdayNotifications.Remove(birthdaynotification);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }

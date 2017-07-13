@@ -14,9 +14,11 @@ namespace Main.Models
         public string SecondName { get; set; }
         [Display(Name = "Birthday Date")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime BirthdayDate { get; set; }
-        [Display(Name = "Started Working")]
+        [Display(Name = "Hire Date")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime WorkStartDate { get; set; }
         [EmailAddress]
         [Display(Name = "Email")]
@@ -41,6 +43,7 @@ namespace Main.Models
                 return result;
         }
 
+        public ICollection<BirthdayNotification> BirthdayNotifications { get; set; }
 
     }
 }
