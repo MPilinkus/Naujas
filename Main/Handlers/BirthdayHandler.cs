@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Main.Models;
 using Slack.Webhooks.Core;
 
@@ -15,7 +14,7 @@ namespace Main.Handlers
         public BirthdayHandler(MainContext context)
         {
             _context = context;
-            Handle();
+            
         }
         public void Handle()
         {
@@ -25,9 +24,11 @@ namespace Main.Handlers
             {
                 var bn = _context.BirthdayNotifications.SingleOrDefault(m => m.ID == w.ID);
                 if(
-                    (DateTime.Today>bn.LastNotification)
+                    ((DateTime.Today.Year>bn.LastNotification.Year) && (DateTime.Today.Month == bn.LastNotification.Month) && (DateTime.Today.Day >= bn.LastNotification.Day))
                     ||
-                    ((DateTime.Today.Month==w.BirthdayDate.Day)&&(DateTime.Today.Day==w.BirthdayDate.Day))
+                    ((DateTime.Today.Year > bn.LastNotification.Year) && (DateTime.Today.Month > bn.LastNotification.Month))
+                    ||
+                    ((DateTime.Today.Month == w.BirthdayDate.Month) && (DateTime.Today.Day == w.BirthdayDate.Day))
                   )
                 {
                     var slackClient = new SlackClient("https://hooks.slack.com/services/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");
@@ -59,7 +60,7 @@ namespace Main.Handlers
 
                     bn.LastNotification = DateTime.Today;
                     if (bn.FirstNotification == w.BirthdayDate)
-                    {
+                    { 
                         bn.FirstNotification = DateTime.Today;
                     }
                     _context.BirthdayNotifications.Update(bn);
@@ -67,6 +68,8 @@ namespace Main.Handlers
             }
             _context.SaveChanges();
         }
+
+
         public string Message(Worker w)
         {
             if ((DateTime.Today.Month > w.BirthdayDate.Month) || (DateTime.Today.Day > w.BirthdayDate.Day))

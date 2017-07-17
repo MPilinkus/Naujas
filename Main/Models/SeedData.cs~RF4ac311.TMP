@@ -1,0 +1,87 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
+
+namespace Main.Models
+{
+    public class SeedData
+    {
+        public static void Initialize(IServiceProvider serviceProvider)
+        {
+            using (var context = new MainContext(
+                serviceProvider.GetRequiredService<DbContextOptions<MainContext>>()))
+            {
+                if (context.Worker.Any())
+                {
+                    return;
+                }
+
+                var workers = new Worker[]
+                {
+                    new Worker
+                    {
+                        FirstName = "John",
+                        SecondName = "Snow",
+                        Sex = "Male",
+                        BirthdayDate = DateTime.Parse("1989-01-11"),
+                        WorkStartDate = DateTime.Parse("2009-04-30"),
+                        Email = "John@Snow.com",
+                        SlackUsername = "",
+                    },
+
+                    new Worker
+                    {
+                        FirstName = "Tyrion",
+                        SecondName = "Lanister",
+                        Sex = "Male",
+                        BirthdayDate = DateTime.Parse("1990-01-11"),
+                        WorkStartDate = DateTime.Parse("2010-04-30"),
+                        Email = "Tyrion@Lanister.com",
+                        SlackUsername = "",
+                    },
+
+                    new Worker
+                    {
+                        FirstName = "Cersei",
+                        SecondName = "Lanister",
+                        Sex = "Female",
+                        BirthdayDate = DateTime.Parse("1991-01-11"),
+                        WorkStartDate = DateTime.Parse("2011-04-30"),
+                        Email = "martynas9x@gmail.com",
+                        SlackUsername = "",
+                    }
+
+                };
+                foreach (Worker w in workers)
+                {
+                    context.Worker.Add(w);
+                }
+                context.SaveChanges();
+
+                var birthdaynotifications = new BirthdayNotification[] {
+                    new BirthdayNotification {
+                        FirstNotification = workers.Single(w => w.FirstName == "John").BirthdayDate,
+                        WorkerID =workers.Single(w => w.FirstName == "John").ID,
+                        LastNotification = DateTime.Today,
+                    },
+                    new BirthdayNotification {
+                        FirstNotification = workers.Single(w => w.FirstName == "Tyrion").BirthdayDate,
+                        WorkerID =workers.Single(w => w.FirstName == "Tyrion").ID,
+                        LastNotification = DateTime.Today,
+                    },
+                    new BirthdayNotification {
+                        FirstNotification = workers.Single(w => w.FirstName == "Cersei").BirthdayDate,
+                        WorkerID = workers.Single(w => w.FirstName == "Cersei").ID,
+                        LastNotification = DateTime.Today,
+                    },
+                };
+                foreach (BirthdayNotification b in birthdaynotifications)
+                {
+                    context.BirthdayNotifications.Add(b);
+                }
+                context.SaveChanges();
+            }
+        }
+    }
+}

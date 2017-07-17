@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Main.Models;
 
 namespace Main.Migrations
@@ -47,9 +46,11 @@ namespace Main.Migrations
 
                     b.Property<string>("SecondName");
 
+                    b.Property<string>("Sex");
+
                     b.Property<DateTime>("WorkStartDate");
 
-                    b.Property<bool>("congratsFlag");
+                    b.Property<string>("SlackUsername");
 
                     b.HasKey("ID");
 

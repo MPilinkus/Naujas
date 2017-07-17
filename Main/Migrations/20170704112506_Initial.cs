@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -18,9 +17,10 @@ namespace Main.Migrations
                     BirthdayDate = table.Column<DateTime>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     SecondName = table.Column<string>(nullable: false),
+                    Sex = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     WorkStartDate = table.Column<DateTime>(nullable: false),
-                    congratsFlag = table.Column<Boolean>(nullable: false),
+                    SlackUsername = table.Column<string>(nullable: true),
 
                 },
                 constraints: table =>

@@ -1,0 +1,12 @@
+C:\Users\martynas\documents\visual studio 2017\Projects\Main\Main\bin\Release\netcoreapp1.1\win7-x64\hostpolicy.dll
+C:\Users\martynas\documents\visual studio 2017\Projects\Main\Main\bin\Release\netcoreapp1.1\win7-x64\hostfxr.dll
+C:\Users\martynas\documents\visual studio 2017\Projects\Main\Main\bin\Release\netcoreapp1.1\win7-x64\Main.exe
+C:\Users\martynas\documents\visual studio 2017\Projects\Main\Main\bin\Release\netcoreapp1.1\win7-x64\Main.deps.json
+C:\Users\martynas\documents\visual studio 2017\Projects\Main\Main\bin\Release\netcoreapp1.1\win7-x64\Main.runtimeconfig.json
+C:\Users\martynas\documents\visual studio 2017\Projects\Main\Main\bin\Release\netcoreapp1.1\win7-x64\Main.runtimeconfig.dev.json
+C:\Users\martynas\documents\visual studio 2017\Projects\Main\Main\bin\Release\netcoreapp1.1\win7-x64\Main.dll
+C:\Users\martynas\documents\visual studio 2017\Projects\Main\Main\bin\Release\netcoreapp1.1\win7-x64\Main.pdb
+C:\Users\martynas\documents\visual studio 2017\Projects\Main\Main\obj\Release\netcoreapp1.1\win7-x64\Main.AssemblyInfo.cs
+C:\Users\martynas\documents\visual studio 2017\Projects\Main\Main\obj\Release\netcoreapp1.1\win7-x64\Main.dll
+C:\Users\martynas\documents\visual studio 2017\Projects\Main\Main\obj\Release\netcoreapp1.1\win7-x64\Main.pdb
+C:\Users\martynas\documents\visual studio 2017\Projects\Main\Main\obj\Release\netcoreapp1.1\win7-x64\Main.csprojResolveAssemblyReference.cache

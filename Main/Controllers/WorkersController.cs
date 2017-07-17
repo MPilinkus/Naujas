@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Main.Models;
 using Slack.Webhooks.Core;
+using Main.Handlers;
 
 namespace Main.Controllers
 {
     public class WorkersController : Controller
     {
         private readonly MainContext _context;
+        private readonly SlackHandler _message;
 
-        public WorkersController(MainContext context)
+        public WorkersController(MainContext context, SlackHandler message)
         {
             _context = context;
+            _message = message;
         }
 
         // GET: Workers
@@ -33,10 +35,6 @@ namespace Main.Controllers
             ViewData["SecondNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["BirthdaySortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["WorkStartSortParm"] = sortOrder == "WDate" ? "Wdate_desc" : "WDate";
-            // Use LINQ to get list of genres.
-            /*IQueryable <string> SecondNameQuery = from w in _context.Worker
-                                            orderby w.SecondName
-                                            select w.SecondName;*/
             if (searchString != null)
             {
                 page = 1;
@@ -119,7 +117,7 @@ namespace Main.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,SecondName,BirthdayDate,WorkStartDate,Email,congratsFlag")] Worker worker)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,SecondName,Sex,BirthdayDate,WorkStartDate,Email,SlackUsername")] Worker worker)
         {
 
             if (ModelState.IsValid)
@@ -127,8 +125,8 @@ namespace Main.Controllers
                 _context.Add(worker);
                 BirthdayNotification bn = new BirthdayNotification { WorkerID = worker.ID };
                 bn.FirstNotification = worker.BirthdayDate;
+                bn.LastNotification = DateTime.Today;
                 _context.BirthdayNotifications.Add(bn);
-                worker.congratsFlag = false;
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -156,7 +154,7 @@ namespace Main.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,SecondName,BirthdayDate,WorkStartDate,Email")] Worker worker)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,SecondName,Sex,BirthdayDate,WorkStartDate,Email,SlackUsername")] Worker worker)
         {
             if (id != worker.ID)
             {
@@ -168,6 +166,10 @@ namespace Main.Controllers
                 try
                 {
                     _context.Update(worker);
+                    await _context.SaveChangesAsync();
+                    var bn = await _context.BirthdayNotifications.SingleOrDefaultAsync(m => m.ID == id);
+                    bn.FirstNotification = worker.BirthdayDate;
+                    _context.Update(bn);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -241,56 +243,14 @@ namespace Main.Controllers
             return View();
         }
 
-        // POST: Workers/SendEmail/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendEmail(int id, [Bind("Author,Message")]EmailMessage birthdayman)
-        {
-            birthdayman.RecieverID = id;
-            var worker = await _context.Worker
-    .SingleOrDefaultAsync(m => m.ID == id);
-            if (ModelState.IsValid)
-            {
-                birthdayman.MailSend(birthdayman.Author, birthdayman.FullName, birthdayman.Message, birthdayman.Email);
-
-            }
-
-
-            return View();
-        }
-
+        // POST: Workers/SendSlack/5
         public async Task<IActionResult> SendSlack(int id, string author, string message) {
 
             var worker = await _context.Worker
                 .SingleOrDefaultAsync(m => m.ID == id);
-            var slackClient = new SlackClient("https://hooks.slack.com/services/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");
-            var slackMessage = new SlackMessage
-            {
-                Channel = "#general",
-                Text = "Congratulation:",
-                IconEmoji = Emoji.Cake,
-                Username = "BirthdayBot"
-            };
-            slackMessage.Mrkdwn = false;
-            var slackAttachment = new SlackAttachment
-            {
-                Fallback = worker.FirstName + " " + worker.SecondName + " is celebrating birthday!",
-                Text = worker.FirstName + " " + worker.SecondName + " is celebrating birthday!",
-                Color = "#D00000",
-                Fields =
-            new List<SlackField>
-                {
-                    new SlackField
-                        {
-                            Title = author + " says to you:",
-                            Value = message
-                        }
-                }
-            };
-            slackMessage.Attachments = new List<SlackAttachment> { slackAttachment };
-            await slackClient.PostAsync(slackMessage);
-
+            _message.SlackMessage(author, message, worker.FirstName, worker.SecondName);
             return View("AfterMessage");
+
         }
 
         public IActionResult AfterMessage() {

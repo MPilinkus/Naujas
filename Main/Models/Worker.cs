@@ -12,6 +12,8 @@ namespace Main.Models
         public string FirstName { get; set; }
         [Display(Name = "Second Name")]
         public string SecondName { get; set; }
+        [Display(Name = "Sex")]
+        public string Sex { get; set; }
         [Display(Name = "Birthday Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -23,8 +25,9 @@ namespace Main.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
-        [Display(Name = "BirthdayFlag")]
-        public bool congratsFlag { get; set; }
+        [Display(Name = "Slack username")]
+        public string SlackUsername { get; set; }
+
 
         [Display(Name = "Full Name")]
         public string FullName

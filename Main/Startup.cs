@@ -8,6 +8,7 @@ using Main.Models;
 using System.Threading.Tasks;
 using System;
 using Main.Handlers;
+using Slack.Webhooks.Core;
 
 namespace Main
 {
@@ -34,8 +35,15 @@ namespace Main
             services.AddDbContext<MainContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MainContext")));
 
-            services.AddTransient<BirthdayHandler>();
+            services.Configure<IISOptions>(options => {
+                options.AutomaticAuthentication = true;
+            });
 
+
+            services.AddTransient<BirthdayHandler>();
+            var slackClient = new SlackClient("https://hooks.slack.com/services/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");
+            services.AddSingleton(slackClient);
+            services.AddScoped<SlackHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,8 +80,12 @@ namespace Main
                     DateTime currentHour = DateTime.Now;
                     var t = Task.Run(async delegate
                     {
-                        if(currentHour.Hour == 14)provider.GetService(typeof(BirthdayHandler));
-                        await Task.Delay(TimeSpan.FromSeconds(5));
+                        if (currentHour.Hour == 9)
+                        {
+                            var birthday = provider.GetService<BirthdayHandler>();
+                            birthday.Handle();
+                        }
+                        await Task.Delay(TimeSpan.FromSeconds(300));
                     });
                     t.Wait();
                 }

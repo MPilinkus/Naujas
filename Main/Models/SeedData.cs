@@ -23,30 +23,33 @@ namespace Main.Models
                     {
                         FirstName = "John",
                         SecondName = "Snow",
+                        Sex = "Male",
                         BirthdayDate = DateTime.Parse("1989-01-11"),
                         WorkStartDate = DateTime.Parse("2009-04-30"),
                         Email = "John@Snow.com",
-                        congratsFlag = false
+                        SlackUsername = "",
                     },
 
                     new Worker
                     {
                         FirstName = "Tyrion",
                         SecondName = "Lanister",
+                        Sex = "Male",
                         BirthdayDate = DateTime.Parse("1990-01-11"),
                         WorkStartDate = DateTime.Parse("2010-04-30"),
                         Email = "Tyrion@Lanister.com",
-                        congratsFlag = false
+                        SlackUsername = "",
                     },
 
                     new Worker
                     {
                         FirstName = "Cersei",
                         SecondName = "Lanister",
+                        Sex = "Female",
                         BirthdayDate = DateTime.Parse("1991-01-11"),
                         WorkStartDate = DateTime.Parse("2011-04-30"),
-                        Email = "martynas9x@gmail.com",
-                        congratsFlag = false
+                        Email = "Cersei@Lanister.com",
+                        SlackUsername = "",
                     }
 
                 };
@@ -58,13 +61,19 @@ namespace Main.Models
 
                 var birthdaynotifications = new BirthdayNotification[] {
                     new BirthdayNotification {
-                        WorkerID =workers.Single(w => w.FirstName == "John").ID
+                        FirstNotification = workers.Single(w => w.FirstName == "John").BirthdayDate,
+                        WorkerID =workers.Single(w => w.FirstName == "John").ID,
+                        LastNotification = DateTime.Today,
                     },
                     new BirthdayNotification {
-                        WorkerID =workers.Single(w => w.FirstName == "Tyrion").ID
+                        FirstNotification = workers.Single(w => w.FirstName == "Tyrion").BirthdayDate,
+                        WorkerID =workers.Single(w => w.FirstName == "Tyrion").ID,
+                        LastNotification = DateTime.Today,
                     },
                     new BirthdayNotification {
-                        WorkerID = workers.Single(w => w.FirstName == "Cersei").ID
+                        FirstNotification = workers.Single(w => w.FirstName == "Cersei").BirthdayDate,
+                        WorkerID = workers.Single(w => w.FirstName == "Cersei").ID,
+                        LastNotification = DateTime.Today,
                     },
                 };
                 foreach (BirthdayNotification b in birthdaynotifications)
