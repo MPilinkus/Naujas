@@ -1,45 +1,28 @@
-﻿using Slack.Webhooks.Core;
+﻿using Main.Interfaces;
+using Slack.Webhooks.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace Main.Handlers
 {
     public class SlackHandler
     {
-        private readonly SlackClient _slackClient;
-        public SlackHandler(SlackClient slackClient)
+        private readonly IMsgClient _client;
+        public SlackHandler(IMsgClient client)
         {
-            _slackClient = slackClient;
+            _client = client;
         }
-        public void SlackMessage(string author, string message, string recieverFN, string recieverLN)
+
+        public void SendSlackMessage(string author, string message, string FirstName, string SecondName)
         {
-            var slackMessage = new SlackMessage
+            if (author != "" && author != null && message != "" && message != null)
             {
-                Channel = "#general",
-                Text = "Congratulation:",
-                IconEmoji = Emoji.Cake,
-                Username = "BirthdayBot"
-            };
-            slackMessage.Mrkdwn = false;
-            var slackAttachment = new SlackAttachment
-            {
-                Fallback = recieverFN + " " + recieverLN + " is celebrating birthday!",
-                Text = recieverFN + " " + recieverLN + " is celebrating birthday!",
-                Color = "#D00000",
-                Fields =
-            new List<SlackField>
-                {
-                    new SlackField
-                        {
-                            Title = author + " says to you:",
-                            Value = message
-                        }
-                }
-            };
-            slackMessage.Attachments = new List<SlackAttachment> { slackAttachment };
-            _slackClient.Post(slackMessage);
+                var Message = _client.FormatMsg(author, message, FirstName, SecondName);
+                _client.PostMsg(Message);
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System;
 using Main.Handlers;
 using Slack.Webhooks.Core;
+using Main.Interfaces;
 
 namespace Main
 {
@@ -43,6 +44,7 @@ namespace Main
             services.AddTransient<BirthdayHandler>();
             var slackClient = new SlackClient("https://hooks.slack.com/services/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");
             services.AddSingleton(slackClient);
+            services.AddTransient<IMsgClient, MsgClient>();
             services.AddScoped<SlackHandler>();
         }
 

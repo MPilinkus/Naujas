@@ -248,7 +248,7 @@ namespace Main.Controllers
 
             var worker = await _context.Worker
                 .SingleOrDefaultAsync(m => m.ID == id);
-            _message.SlackMessage(author, message, worker.FirstName, worker.SecondName);
+            _message.SendSlackMessage(author, message, worker.FirstName, worker.SecondName);
             return View("AfterMessage");
 
         }

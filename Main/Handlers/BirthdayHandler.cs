@@ -9,12 +9,12 @@ namespace Main.Handlers
     public class BirthdayHandler
     {
         private readonly MainContext _context;
+        private readonly SlackClient _slackClient;
 
-
-        public BirthdayHandler(MainContext context)
+        public BirthdayHandler(MainContext context, SlackClient slackClient)
         {
             _context = context;
-            
+            _slackClient = slackClient;
         }
         public void Handle()
         {
@@ -31,7 +31,6 @@ namespace Main.Handlers
                     ((DateTime.Today.Month == w.BirthdayDate.Month) && (DateTime.Today.Day == w.BirthdayDate.Day))
                   )
                 {
-                    var slackClient = new SlackClient("https://hooks.slack.com/services/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");
                     var slackMessage = new SlackMessage
                     {
                         Channel = "#general",
@@ -56,7 +55,7 @@ namespace Main.Handlers
                         }
                     };
                     slackMessage.Attachments = new List<SlackAttachment> { slackAttachment };
-                    slackClient.Post(slackMessage);
+                    _slackClient.Post(slackMessage);
 
                     bn.LastNotification = DateTime.Today;
                     if (bn.FirstNotification == w.BirthdayDate)
